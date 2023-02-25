@@ -158,13 +158,25 @@ const camera =
 ;
 // Step1
 const st1 = document.getElementById("step-1");
+st1.addEventListener('change', (e) => {
+    getModel(e.target.value)
+});
+
+// brandの重複なしリスト
 let brand = new Set();
 for(let i=0; i < camera.length; i++){
     brand.add(camera[i].brand);
-}
+};
 brand.forEach((e)=>{
     let selectBrand = document.createElement("option");
+    selectBrand.classList.add("brand-item")
     selectBrand.value = e;
     selectBrand.innerHTML = e;
     st1.append(selectBrand);
-})
+});
+
+// Step2
+function getModel(e){
+    console.log(e);
+}
+const st2 = document.getElementById("step-2");
