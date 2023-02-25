@@ -157,16 +157,21 @@ const camera =
     }]
 ;
 
-// initial
-function initial(){
-    const target = document.getElementById("target");
-    target.innerHTML = `
-    <div id="title" class="container-fluid bg-info d-flex justify-content-center p-2">
-        <h1 class="title">Battery Finder Program</h1>
-    </div>
-    <div id="input" class="container">input</div>
-    <div id="output" class="container">output</div>
-    `
+// input
+function input (){
+    const input = document.getElementById("input");
+    input.innerHTML = `
+        <div id="step1" class="d-flex flex-column">
+            <label>Step1: Select your brand</label>
+            <input></input>
+        </div>
+        <div id="step2" class="d-flex flex-column>
+            <label>Step2: Select your model</label>
+            <input></input>
+        </div>
+        <div id="step3" class="d-flex flex-column>
+            <label>Step3: Input accessory power consumption</label>
+            <input></input>
+        </div>
+    `;
 }
-
-initial();

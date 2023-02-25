@@ -9,7 +9,26 @@
     <title>Battery Finder Program</title>
 </head>
 <body>
-    <div id="target"></div>
+    <div id="title" class="container-fluid bg-info d-flex justify-content-center p-2 mb-3">
+        <h1 class="title">Battery Finder Program</h1>
+    </div>
+    <div class="container">
+        <div id="input-1" class="d-flex flex-column mb-3">
+            <label for="step1">Step1: Select your brand</label>
+            <select name="" id="step1" class="col-3"></select>
+        </div>
+        <div id="input-2" class="d-flex flex-column mb-3">
+            <label for="step-2">Step2: Select your model</label>
+            <select name="" id="step-2" class="col-3"></select>
+        </div>
+        <div id="input-3" class="d-flex flex-column mb-3">
+            <label for="step-3">Step3: Input accessory power consumption</label>
+            <input type="number" id="step-3" class="col-3"></input>
+        </div>
+        <div id="output">
+            Step4: Choose your battery
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
