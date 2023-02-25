@@ -191,13 +191,16 @@ const getModel = (e) => {
 
 // バッテリー選定
 const getChooseBattery = (model, accessoryPower) => {
-    const calcModelElement = camera.filter(ele => ele.model === model)[0].powerConsumptionWh;
-    console.log(calcModelElement)
+    const calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + accessoryPower;
+
+    let estimateHours = battery.map(x =>
+        (x.voltage * x.capacityAh / calcModelPower).toFixed(1)
+    );
+
     //const wParHr = voltage * capacityAh;
     //const h = wParHr / powerConsumptionWh
     //if(e < maxDraw * endVoltage)
     //console.log("getPowerConsumption")
-    console.log(accessoryPower)
     //"capacityAh": 2.3,--
     //"voltage": 14.4,--
     //"maxDraw": 3.2,
@@ -231,6 +234,9 @@ const initial = () => {
     // accessory
     let initAccessory = 50;
     document.getElementById("step-3").value = initAccessory
+
+    // バッテリー選定
+    getChooseBattery(initModel, initAccessory)
 
     let current = [initBrand, initModel, initAccessory]
     return current
