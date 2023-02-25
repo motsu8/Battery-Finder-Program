@@ -156,22 +156,15 @@ const camera =
         "powerConsumptionWh": 26,
     }]
 ;
-
-// input
-function input (){
-    const input = document.getElementById("input");
-    input.innerHTML = `
-        <div id="step1" class="d-flex flex-column">
-            <label>Step1: Select your brand</label>
-            <input></input>
-        </div>
-        <div id="step2" class="d-flex flex-column>
-            <label>Step2: Select your model</label>
-            <input></input>
-        </div>
-        <div id="step3" class="d-flex flex-column>
-            <label>Step3: Input accessory power consumption</label>
-            <input></input>
-        </div>
-    `;
+// Step1
+const st1 = document.getElementById("step-1");
+let brand = new Set();
+for(let i=0; i < camera.length; i++){
+    brand.add(camera[i].brand);
 }
+brand.forEach((e)=>{
+    let selectBrand = document.createElement("option");
+    selectBrand.value = e;
+    selectBrand.innerHTML = e;
+    st1.append(selectBrand);
+})
