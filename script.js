@@ -190,3 +190,8 @@ function getModel(e){
     })
     console.log(model);
 }
+
+// step3
+const st3 = document.getElementById("step-3");
+st3.addEventListener('change', (e)=>{console.log(e.target.value)})
+
