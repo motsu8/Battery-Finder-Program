@@ -157,15 +157,15 @@ const camera =
     }]
 ;
 
-console.log(battery);
-console.log(camera);
 // initial
 function initial(){
     const target = document.getElementById("target");
     target.innerHTML = `
-    <div id="title" class="container-fluid bg-info">Battery Finder Program</div>
-    <div id="input"></div>
-    <div id="output"></div>
+    <div id="title" class="container-fluid bg-info d-flex justify-content-center p-2">
+        <h1 class="title">Battery Finder Program</h1>
+    </div>
+    <div id="input" class="container">input</div>
+    <div id="output" class="container">output</div>
     `
 }
 
