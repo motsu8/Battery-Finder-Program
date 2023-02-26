@@ -189,27 +189,30 @@ const getModel = (e) => {
     return model;
 }
 
-// バッテリー選定
+// バッテリー
 const getChooseBattery = (model, accessoryPower) => {
-    const calcModelElement = camera.filter(ele => ele.model === model)[0].powerConsumptionWh;
-    console.log(calcModelElement)
-    //const wParHr = voltage * capacityAh;
-    //const h = wParHr / powerConsumptionWh
-    //if(e < maxDraw * endVoltage)
-    //console.log("getPowerConsumption")
-    console.log(accessoryPower)
-    //"capacityAh": 2.3,--
-    //"voltage": 14.4,--
-    //"maxDraw": 3.2,
-    //"endVoltage": 10,
-    /**
-     * テレビの電源電圧が 120V で、電流が 1.2A の場合、
-     * 消費電力は P = I * V を用いて、P = 120(maxDraw) * 1.2(voltage) = 144W となります。
-     * 同様に、電圧が 14.4V で、満充電時電池容量が 6.6Ah（A / hr）の電池は、
-     * 14.4V × 6.6Ah() = 95Wh（W / hr）の電力容量を持ちます。
-     * 仮にその電池を消費電力が 50W のカメラに使用した場合、95 / 50(powerConsumptionWh) ＝ 1.9 時間（114分）
-     * 持続可能であることを意味します。
-    */
+    const calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + accessoryPower;
+    const estimateHours = battery.map(x =>
+        (x.voltage * x.capacityAh / calcModelPower).toFixed(1)
+    );
+
+    // 表示するbatteryのindex
+    const sortIndex = estimateHours.map((e, index)=>{
+        if(e >= 1) return index
+    }).filter(Boolean);
+
+    // 表示するbatteryの名前
+    const chooseBattery = battery.map((x, index)=>{
+        for(let i of sortIndex){
+            if(index === i)return x.batteryName
+        }
+    }).filter(Boolean);
+
+    console.log(estimateHours)
+    console.log(chooseBattery)
+
+
+
 }
 
 // target
@@ -231,6 +234,9 @@ const initial = () => {
     // accessory
     let initAccessory = 50;
     document.getElementById("step-3").value = initAccessory
+
+    // バッテリー選定
+    getChooseBattery(initModel, initAccessory)
 
     let current = [initBrand, initModel, initAccessory]
     return current
