@@ -191,27 +191,30 @@ const getModel = (e) => {
 
 // バッテリー
 const getChooseBattery = (model, accessoryPower) => {
-    let calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + accessoryPower;
+    console.log(typeof(accessoryPower))
+    let calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + parseInt(accessoryPower);
     let estimateHours = battery.map(x =>
         (x.voltage * x.capacityAh / calcModelPower).toFixed(1)
     );
+    console.log(estimateHours)
 
     // 表示するbatteryのindex
-    let sortIndex = estimateHours.map((e, index)=>{
-        if(e > 1) return index
+    //let maxPower = maxDraw * end
+    let showIndex = estimateHours.map((e, index)=>{
+        if(battery[index].maxDraw * battery[index].endVoltage > calcModelPower) return index
     }).filter(Boolean);
 
     // 表示するbatteryの名前
     let chooseBattery = battery.map((x, index)=>{
-        for(let i of sortIndex){
+        for(let i of showIndex){
             if(index === i)return x.batteryName
         }
     }).filter(Boolean);
 
     // batteryリスト
     let batteryDict = new Map();
-    for(let i=0; i<sortIndex.length; i++){
-        batteryDict.set(chooseBattery[i], estimateHours[sortIndex[i]]);
+    for(let i=0; i<showIndex.length; i++){
+        batteryDict.set(chooseBattery[i], estimateHours[showIndex[i]]);
     }
     let sortedBatteryDict = new Map([...batteryDict].sort());
 
@@ -266,14 +269,16 @@ let currentAccessoryPower = current[2];
 
 // Step1
 st1.addEventListener('change', (e) => {
+    getModel(currentBrand)
     currentBrand = e.target.value;
     currentModel = [...getModel(currentBrand)][0]
-    getModel(currentBrand)
+    getChooseBattery(currentModel, currentAccessoryPower)
 });
 
 // Step2
 st2.addEventListener('change', (e)=>{
     currentModel = e.target.value;
+    console.log("calc")
     getChooseBattery(currentModel, currentAccessoryPower)
 });
 
