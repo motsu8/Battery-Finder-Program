@@ -221,10 +221,10 @@ const getChooseBattery = (model, accessoryPower) => {
     //for(let i=0; i<sortedBatteryDict.size(); i++){
     for(let item of sortedBatteryDict){
         let batteryItem = document.createElement("div");
-        batteryItem.classList.add("d-flex", "justify-content-between")
+        batteryItem.classList.add("battery-item","p-1", "bg-light", "d-flex","align-items-center", "justify-content-between")
         batteryItem.innerHTML = `
-        <p class="battery-name">${item[0]}</p>
-        <p>Estimate ${item[1]} hours</p>
+        <p class="battery-name m-1">${item[0]}</p>
+        <p class="m-1">Estimate ${item[1]} hours</p>
         `;
         batteryData.append(batteryItem);
     };
