@@ -1,3 +1,13 @@
 .title{
     color: white;
 }
+
+.battery-item{
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+}
+
+.battery-name{
+    font-weight: bold;
+}
