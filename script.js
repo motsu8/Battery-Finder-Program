@@ -191,34 +191,51 @@ const getModel = (e) => {
 
 // バッテリー
 const getChooseBattery = (model, accessoryPower) => {
-    const calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + accessoryPower;
-    const estimateHours = battery.map(x =>
+    let calcModelPower = camera.filter(ele => ele.model === model)[0].powerConsumptionWh + accessoryPower;
+    let estimateHours = battery.map(x =>
         (x.voltage * x.capacityAh / calcModelPower).toFixed(1)
     );
 
     // 表示するbatteryのindex
-    const sortIndex = estimateHours.map((e, index)=>{
-        if(e >= 1) return index
+    let sortIndex = estimateHours.map((e, index)=>{
+        if(e > 1) return index
     }).filter(Boolean);
 
     // 表示するbatteryの名前
-    const chooseBattery = battery.map((x, index)=>{
+    let chooseBattery = battery.map((x, index)=>{
         for(let i of sortIndex){
             if(index === i)return x.batteryName
         }
     }).filter(Boolean);
 
-    console.log(estimateHours)
-    console.log(chooseBattery)
+    // batteryリスト
+    let batteryDict = new Map();
+    for(let i=0; i<sortIndex.length; i++){
+        batteryDict.set(chooseBattery[i], estimateHours[sortIndex[i]]);
+    }
+    let sortedBatteryDict = new Map([...batteryDict].sort());
 
-
-
+    // HTML反映
+    let batteryData = document.getElementById("battery-data")
+    batteryData.innerHTML = "";
+    //for(let i=0; i<sortedBatteryDict.size(); i++){
+    for(let item of sortedBatteryDict){
+        let batteryItem = document.createElement("div");
+        batteryItem.classList.add("d-flex", "justify-content-between")
+        batteryItem.innerHTML = `
+        <p class="battery-name">${item[0]}</p>
+        <p>Estimate ${item[1]} hours</p>
+        `;
+        batteryData.append(batteryItem);
+    };
+    st4.append(batteryData)
 }
 
 // target
 const st1 = document.getElementById("step-1");
 const st2 = document.getElementById("step-2");
 const st3 = document.getElementById("step-3");
+const st4 = document.getElementById("step-4");
 
 // 初期値
 const initial = () => {
@@ -262,7 +279,6 @@ st2.addEventListener('change', (e)=>{
 
 // step3
 st3.addEventListener('change', (e)=>{
-    currentPower = e.target.value;
+    currentAccessoryPower = e.target.value;
     getChooseBattery(currentModel, currentAccessoryPower)
 });
-
